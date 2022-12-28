@@ -40,7 +40,8 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+    @Builder.Default
+    private RoleType roleType = RoleType.Guest;
 
     @Column(name = "provider", nullable = true)
     private String provider;

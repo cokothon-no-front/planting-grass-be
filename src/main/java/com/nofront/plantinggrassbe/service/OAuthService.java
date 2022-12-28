@@ -1,18 +1,21 @@
 package com.nofront.plantinggrassbe.service;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
 @Service
 public class OAuthService{
 
-    public String getKakaoAccessToken (String code) {
+    public HashMap<String, String> getKakaoAccessToken (String code) {
         String access_Token = "";
+        String access_TokenR = "";
         String refresh_Token = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
 
@@ -53,6 +56,7 @@ public class OAuthService{
             JsonElement element = parser.parse(result);
             System.out.println("element = " + element.getAsJsonObject());
             access_Token = element.getAsJsonObject().get("id_token").getAsString();
+            access_TokenR = element.getAsJsonObject().get("access_token").getAsString();
             refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
 
             System.out.println("access_token : " + access_Token);
@@ -60,10 +64,43 @@ public class OAuthService{
 
             br.close();
             bw.close();
+//            -------------------------------------------------------------------여기부터 개인정보 받아오기
+            reqURL = "https://kapi.kakao.com/v2/user/me";
+            url = new URL(reqURL);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+
+            //    요청에 필요한 Header에 포함될 내용
+            conn.setRequestProperty("Authorization", "Bearer " + access_TokenR);
+
+            responseCode = conn.getResponseCode();
+            System.out.println("responseCode : " + responseCode);
+
+            br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            line = "";
+            result = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            System.out.println("response body : " + result);
+
+            parser = new JsonParser();
+            element = parser.parse(result);
+
+            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+            JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+
+            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+            HashMap<String, String> response = new HashMap<>();
+            response.put("nickname", nickname);
+            response.put("token", access_Token);
+
+            return response;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return access_Token;
+        return null;
     }
 }

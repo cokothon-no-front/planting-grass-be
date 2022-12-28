@@ -72,7 +72,7 @@ public class SnsAuthenticationFilter extends AbstractAuthenticationProcessingFil
             String refreshToken = jwtTokenUtils.generateRefreshToken();
 
             // 디비에 토큰 + 유저 정보 저장
-            userService.saveToken(userDetails.getUsername(), userDetails.getProvider(), refreshToken);
+            userService.saveToken(userDetails.getUsername(), userDetails.getProvider(), refreshToken, "tmp");
 
 
             JSONObject responseJson = new JSONObject();

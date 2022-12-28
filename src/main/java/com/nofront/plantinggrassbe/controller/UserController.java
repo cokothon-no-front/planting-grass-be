@@ -1,11 +1,6 @@
 package com.nofront.plantinggrassbe.controller;
 
-import com.nofront.plantinggrassbe.DTO.StringResponseDto;
-import com.nofront.plantinggrassbe.DTO.UserDetails;
-import com.nofront.plantinggrassbe.DTO.UserRegisterRequestDto;
-import com.nofront.plantinggrassbe.DTO.UserResponseDto;
-
-import com.nofront.plantinggrassbe.DTO.UserSaveResponseDto;
+import com.nofront.plantinggrassbe.DTO.*;
 
 import com.nofront.plantinggrassbe.domain.User;
 import com.nofront.plantinggrassbe.filter.JwtAuthenticationToken;
@@ -52,6 +47,20 @@ public class UserController {
             return null;
         }
     }
+    @PostMapping("/user/sign-up")
+    public UserResponseDto signUp(
+            @RequestBody UserRegisterRequestDto requestBody
+    ) throws Exception {
+        return userService.join(requestBody);
+    }
+
+    @PostMapping("/user/sign-in")
+    public TokenResponseDto signIn(
+            @RequestBody SignInRequestDto requestBody
+    ) throws Exception {
+        String token = userService.checkAndToken(requestBody.getId(), requestBody.getPassword());
+        return new TokenResponseDto(token);
+    }
 
     @GetMapping("/user")
     public UserResponseDto getUser(JwtAuthenticationToken jwtToken){
@@ -72,13 +81,13 @@ public class UserController {
         }
     }
 
-    @PostMapping("/register")
-    public StringResponseDto registerUser(
-            @RequestBody UserRegisterRequestDto requestBody
-            ) throws ParseException {
-        userService.join(requestBody);
-        return new StringResponseDto("User Registered!!");
-    }
+//    @PostMapping("/register")
+//    public StringResponseDto registerUser(
+//            @RequestBody UserRegisterRequestDto requestBody
+//            ) throws ParseException {
+//        userService.join(requestBody);
+//        return new StringResponseDto("User Registered!!");
+//    }
 
 
 //    @GetMapping("/user/refreshToken")

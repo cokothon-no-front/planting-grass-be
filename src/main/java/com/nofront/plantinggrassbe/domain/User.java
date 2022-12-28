@@ -26,11 +26,7 @@ import java.util.List;
         }
 )
 public class User {
-    enum RoleType{
-        Admin,
-        Manager,
-        Guest
-    }
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

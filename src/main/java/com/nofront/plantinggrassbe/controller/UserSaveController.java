@@ -10,9 +10,12 @@ import com.nofront.plantinggrassbe.repository.UserSaveRepository;
 import com.nofront.plantinggrassbe.service.UserSaveService;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class UserSaveController {
@@ -32,7 +35,7 @@ public class UserSaveController {
     }
     
     @GetMapping("/user/save")
-    public List<UserSave> getUserSave(JwtAuthenticationToken jwtToken){
+    public List<UserSaveResponseDto> getUserSave(JwtAuthenticationToken jwtToken){
         return userSaveService.findAllByUserName(jwtToken);
     }
 }

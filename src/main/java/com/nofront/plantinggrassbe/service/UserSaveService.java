@@ -15,7 +15,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Transactional
 @Service
@@ -37,10 +39,17 @@ public class UserSaveService {
         return userSaveRepository.findById(id).get();
     }
 
-    public List<UserSave> findAllByUserName(JwtAuthenticationToken jwtToken) {
+    public List<UserSaveResponseDto> findAllByUserName(JwtAuthenticationToken jwtToken) {
         UserDetails userDetails = (UserDetails) jwtToken.getPrincipal();
         User user =  userRepository.findByUsernameAndProvider(userDetails.getUsername(), userDetails.getProvider()).orElseThrow(() -> new RuntimeException("can not find user!"));
-        return userSaveRepository.findByUsername(user.getUsername());
+        List<UserSave> userSave = userSaveRepository.findByUsername(user.getUsername());
+
+        List<UserSaveResponseDto> responseList = new ArrayList<>();
+        Stream<UserSave> stream = userSave.stream();
+        stream.forEach(data -> {
+            responseList.add(new UserSaveResponseDto().fromEntity(data, user));
+        });
+        return responseList;
     }
     public UserSaveResponseDto join(UserSaveRequestDto request, JwtAuthenticationToken jwtToken){
         UserDetails userDetails = (UserDetails) jwtToken.getPrincipal();

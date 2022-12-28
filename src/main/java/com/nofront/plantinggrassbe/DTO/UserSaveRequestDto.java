@@ -17,7 +17,7 @@ public class UserSaveRequestDto {
                 .data(this.data.getData())
                 .dataKey(this.data.getDataKey())
                 .isPrivate(this.data.isPrivate())
-                .user(user)
+                .username(user.getUsername())
                 .build()
                 ;
     }

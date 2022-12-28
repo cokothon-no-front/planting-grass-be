@@ -112,11 +112,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserResponseDto returnUser(JwtAuthenticationToken jwtToken){
-        UserDetails userDetails = (UserDetails) jwtToken.getPrincipal();
-        User user =  userRepository.findByUsernameAndProvider(userDetails.getUsername(), userDetails.getProvider()).orElseThrow(() -> new RuntimeException("can not find user!"));
-        return new UserResponseDto().fromEntity(user);
-    }
+
 
 
     public  UserResponseDto findById(Long id) throws Exception {

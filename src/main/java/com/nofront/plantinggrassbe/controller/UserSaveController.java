@@ -28,6 +28,11 @@ public class UserSaveController {
             @RequestBody UserSaveRequestDto requestBody
     ) throws ParseException {
         return userSaveService.join(requestBody, jwtToken);
-    }
 
+    }
+    
+    @GetMapping("/user/save")
+    public List<UserSave> getUserSave(JwtAuthenticationToken jwtToken){
+        return userSaveService.findAllByUserName(jwtToken);
+    }
 }

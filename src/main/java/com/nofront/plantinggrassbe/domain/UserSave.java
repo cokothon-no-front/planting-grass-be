@@ -1,5 +1,6 @@
 package com.nofront.plantinggrassbe.domain;
 
+
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
@@ -20,14 +21,16 @@ public class UserSave {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id")
-    private User user;
+
+//    @ManyToOne(targetEntity = User.class)
+//    @JoinColumn(name = "username")
+    private String username;
 
     @Column()
     boolean isPrivate;
 
     @CreatedDate
+
     @Builder.Default
     @Column(nullable = true, updatable = false, columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
     LocalDateTime createdDate = LocalDateTime.now();
@@ -41,13 +44,5 @@ public class UserSave {
 
     private String dataKey;
 
-//    public UserSave(int id, User user, boolean isPrivate, LocalDateTime createdDate, LocalDateTime updatedDate, String data, String dataKey) {
-//        this.id = id;
-//        this.user = user;
-//        this.isPrivate = isPrivate;
-//        this.createdDate = createdDate;
-//        this.updatedDate = updatedDate;
-//        this.data = data;
-//        this.dataKey = dataKey;
-//    }
+
 }

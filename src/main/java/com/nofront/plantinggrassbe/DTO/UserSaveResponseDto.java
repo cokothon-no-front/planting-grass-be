@@ -24,7 +24,10 @@ public class UserSaveResponseDto {
 
     private Long userId;
 
-    public UserSaveResponseDto fromEntity(UserSave userSave, User user){
+
+
+    public UserSaveResponseDto fromEntity(UserSave userSave,User user){
+
         return UserSaveResponseDto.builder()
                 .createdDate(userSave.getCreatedDate())
                 .data(userSave.getData())
@@ -32,7 +35,7 @@ public class UserSaveResponseDto {
                 .id(userSave.getId())
                 .isPrivate(userSave.isPrivate())
                 .userId(user.getId())
-                .build()
-                ;
+                .build();
+
     }
 }

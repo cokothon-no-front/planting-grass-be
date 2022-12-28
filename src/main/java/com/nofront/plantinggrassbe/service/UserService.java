@@ -3,13 +3,18 @@ package com.nofront.plantinggrassbe.service;
 import com.nofront.plantinggrassbe.DTO.UserDetails;
 import com.nofront.plantinggrassbe.DTO.UserRegisterRequestDto;
 import com.nofront.plantinggrassbe.DTO.UserResponseDto;
+import com.nofront.plantinggrassbe.DTO.UserSaveResponseDto;
 import com.nofront.plantinggrassbe.Utils.CommonTokenUtils;
 import com.nofront.plantinggrassbe.Utils.KakaoTokenUtils;
 import com.nofront.plantinggrassbe.domain.User;
+
+import com.nofront.plantinggrassbe.domain.UserSave;
+
 import com.nofront.plantinggrassbe.filter.JwtAuthenticationToken;
 import com.nofront.plantinggrassbe.repository.UserRepository;
 
 import com.auth0.jwk.JwkException;
+import com.nofront.plantinggrassbe.repository.UserSaveRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -34,10 +39,13 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+
     @Autowired
     private CommonTokenUtils tokenUtils;
     @Autowired
     private KakaoTokenUtils kakaoTokenUtils;
+
+
 
     //
     public List<User> findUsers() throws Exception {
@@ -102,5 +110,17 @@ public class UserService {
                         .build();
         user.setRefreshToken(refreshToken);
         userRepository.save(user);
+    }
+
+    public UserResponseDto returnUser(JwtAuthenticationToken jwtToken){
+        UserDetails userDetails = (UserDetails) jwtToken.getPrincipal();
+        User user =  userRepository.findByUsernameAndProvider(userDetails.getUsername(), userDetails.getProvider()).orElseThrow(() -> new RuntimeException("can not find user!"));
+        return new UserResponseDto().fromEntity(user);
+    }
+
+
+    public  UserResponseDto findById(Long id) throws Exception {
+        User user = userRepository.findById(id).orElseThrow(() -> new Exception("error find by nickname"));
+        return new UserResponseDto().fromEntity(user);
     }
 }

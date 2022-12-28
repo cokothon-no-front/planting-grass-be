@@ -32,7 +32,7 @@ public class UserSaveService {
 
     public UserSaveResponseDto returnUserSave(UserSave usersave, User user){
         List<UserSave> userSave = userSaveRepository.findAll();
-        return new UserSaveResponseDto().fromEntity(usersave,user);
+        return new UserSaveResponseDto().fromEntity(usersave);
     }
 
     public UserSave findById(int id) {
@@ -47,7 +47,7 @@ public class UserSaveService {
         List<UserSaveResponseDto> responseList = new ArrayList<>();
         Stream<UserSave> stream = userSave.stream();
         stream.forEach(data -> {
-            responseList.add(new UserSaveResponseDto().fromEntity(data, user));
+            responseList.add(new UserSaveResponseDto().fromEntity(data));
         });
         return responseList;
     }
@@ -56,7 +56,7 @@ public class UserSaveService {
         User user =  userRepository.findByUsernameAndProvider(userDetails.getUsername(), userDetails.getProvider()).orElseThrow(() -> new RuntimeException("can not find user!"));
         UserSave userSave = request.toEntity(user);
         userSaveRepository.save(userSave);
-        return new UserSaveResponseDto().fromEntity(userSave, user);
+        return new UserSaveResponseDto().fromEntity(userSave);
     }
 
 }

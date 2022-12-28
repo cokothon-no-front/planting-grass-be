@@ -12,6 +12,8 @@ import com.nofront.plantinggrassbe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @RestController
 public class OuathController {
     @Autowired
@@ -38,13 +40,16 @@ public class OuathController {
             @RequestParam String code
     ) throws Exception {
 //        System.out.println("code = " + code);
-        String token = oAuthService.getKakaoAccessToken(code);
+        HashMap<String, String> userInfo = oAuthService.getKakaoAccessToken(code);
+        String nickname = userInfo.get("nickname");
+        String token = userInfo.get("token");
+
 //        System.out.println("token = " + token);
         OauthInfo oauthInfo = kakaoTokenUtils.getOauthInfo(token);
 
         String accessToken = jwtTokenUtils.generateAccessToken(oauthInfo.getUserId(), oauthInfo.getProvider());
         String refreshToken = jwtTokenUtils.generateRefreshToken();
-        userService.saveToken(oauthInfo.getUserId(), oauthInfo.getProvider(), refreshToken);
+        userService.saveToken(oauthInfo.getUserId(), oauthInfo.getProvider(), refreshToken, nickname);
         return new StringResponseDto(accessToken);
     }
 

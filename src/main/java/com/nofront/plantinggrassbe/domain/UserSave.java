@@ -23,7 +23,6 @@ public class UserSave {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-
 //    @ManyToOne(targetEntity = User.class)
 //    @JoinColumn(name = "username")
     private String username;

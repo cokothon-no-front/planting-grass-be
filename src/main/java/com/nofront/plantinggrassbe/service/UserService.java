@@ -5,7 +5,9 @@ import com.nofront.plantinggrassbe.DTO.UserRegisterRequestDto;
 import com.nofront.plantinggrassbe.DTO.UserResponseDto;
 import com.nofront.plantinggrassbe.DTO.UserSaveResponseDto;
 import com.nofront.plantinggrassbe.Utils.CommonTokenUtils;
+import com.nofront.plantinggrassbe.Utils.JwtTokenUtils;
 import com.nofront.plantinggrassbe.Utils.KakaoTokenUtils;
+import com.nofront.plantinggrassbe.domain.RoleType;
 import com.nofront.plantinggrassbe.domain.User;
 
 import com.nofront.plantinggrassbe.domain.UserSave;
@@ -38,13 +40,12 @@ public class UserService {
     private Environment env;
     @Autowired
     private UserRepository userRepository;
-
-
     @Autowired
     private CommonTokenUtils tokenUtils;
     @Autowired
     private KakaoTokenUtils kakaoTokenUtils;
-
+    @Autowired
+    private JwtTokenUtils jwtTokenUtils;
 
 
     //
@@ -78,18 +79,20 @@ public class UserService {
         User user =  userRepository.findByUsernameAndProvider(userDetails.getUsername(), userDetails.getProvider()).orElseThrow(() -> new RuntimeException("can not find user!"));
         return new UserResponseDto().fromEntity(user);
     }
-    public void join(UserRegisterRequestDto request) throws ParseException {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User userBefore = userRepository.findByUsernameAndProvider(userDetails.getUsername(), userDetails.getProvider()).orElseThrow(() -> new RuntimeException("can not find user!"));
-
-        User user = request.toEntity(null);
-        user.setProvider(userBefore.getProvider());
-        user.setUsername(userBefore.getUsername());
-        user.setRefreshToken(userBefore.getRefreshToken());
-        user.setId(userBefore.getId());
-
-        userRepository.save(user);
-    }
+//    public UserResponseDto join(UserRegisterRequestDto request) throws ParseException {
+//        User user = request.toEntity(null);
+//        String accessToken = jwtTokenUtils.generateAccessToken(user.getUsername(), user.getProvider());
+//        String refreshToken = jwtTokenUtils.generateRefreshToken();
+//        userService.saveToken(oauthInfo.getUserId(), oauthInfo.getProvider(), refreshToken);
+//
+//        User user = request.toEntity(null);
+//        user.setProvider(userBefore.getProvider());
+//        user.setUsername(userBefore.getUsername());
+//        user.setRefreshToken(userBefore.getRefreshToken());
+//        user.setId(userBefore.getId());
+//
+//        userRepository.save(user);
+//    }
 
 //    public UserResponseDto findUserByNickname(String nickname) throws Exception {
 //        User user = userRepository.findByNickname(nickname).orElseThrow(() -> new Exception("error find by nickname"));
@@ -101,22 +104,33 @@ public class UserService {
 //        return new UserResponseDto().fromEntity(user);
 //    }
 
-    public void saveToken(String username, String provider, String refreshToken) throws  Exception{
+    public void saveToken(String username, String provider, String refreshToken, String nickname) throws  Exception{
         User user = userRepository.findByUsernameAndProvider(username, provider).isPresent() ?
                 userRepository.findByUsernameAndProvider(username, provider).orElseThrow(() -> new Exception("error find by nickname")) :
                 User.builder()
                         .username(username)
                         .provider(provider)
+                        .roleType(RoleType.Guest)
+                        .name(nickname)
                         .build();
         user.setRefreshToken(refreshToken);
         userRepository.save(user);
     }
 
-
-
-
-    public  UserResponseDto findById(Long id) throws Exception {
+    public UserResponseDto findById(Long id) throws Exception {
         User user = userRepository.findById(id).orElseThrow(() -> new Exception("error find by nickname"));
+        return new UserResponseDto().fromEntity(user);
+    }
+    public String checkAndToken(String id, String password) throws Exception {
+        User user = userRepository.findByUsernameAndProvider(id, password).orElseThrow(() -> new Exception("error find by nickname"));
+        String accessToken = jwtTokenUtils.generateAccessToken(user.getUsername(), user.getProvider());
+        return accessToken;
+    }
+    public UserResponseDto join(UserRegisterRequestDto requestBody) throws Exception {
+        User user = requestBody.toEntity(null);
+        String accessToken = jwtTokenUtils.generateAccessToken(user.getUsername(), user.getProvider());
+        String refreshToken = jwtTokenUtils.generateRefreshToken();
+        saveToken(user.getUsername(), user.getProvider(), refreshToken, user.getName());
         return new UserResponseDto().fromEntity(user);
     }
 }

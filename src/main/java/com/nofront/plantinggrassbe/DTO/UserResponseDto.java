@@ -13,7 +13,7 @@ public class UserResponseDto implements IResponseDto<UserResponseDto, User>{
 
     private String authority;
 
-    private Long id;
+    private String id;
 
     private String name;
 
@@ -26,8 +26,9 @@ public class UserResponseDto implements IResponseDto<UserResponseDto, User>{
         return UserResponseDto.builder()
                 .authority(user.getName())
                 .roleType(user.getRoleType())
-                .id(user.getId())
+                .id(user.getUsername())
                 .name(user.getName())
+                .password(user.getProvider())
                 .build();
     }
 }

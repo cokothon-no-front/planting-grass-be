@@ -22,11 +22,11 @@ public class UserSaveResponseDto {
 
     private boolean isPrivate;
 
-    private Long userId;
+    private String username;
 
 
 
-    public UserSaveResponseDto fromEntity(UserSave userSave,User user){
+    public UserSaveResponseDto fromEntity(UserSave userSave){
 
         return UserSaveResponseDto.builder()
                 .createdDate(userSave.getCreatedDate())
@@ -34,7 +34,7 @@ public class UserSaveResponseDto {
                 .dataKey(userSave.getDataKey())
                 .id(userSave.getId())
                 .isPrivate(userSave.isPrivate())
-                .userId(user.getId())
+                .username(userSave.getUsername())
                 .build();
 
     }

@@ -29,7 +29,7 @@ public class TokenService {
             if (!jwtTokenUtils.validate(requestBody.getRefreshToken())) return null;
             String accessToken = jwtTokenUtils.generateAccessToken(user.getUsername(), user.getProvider());
             String refreshToken = jwtTokenUtils.generateRefreshToken();
-            userService.saveToken(user.getUsername(), user.getProvider(), refreshToken);
+            userService.saveToken(user.getUsername(), user.getProvider(), refreshToken, user.getName());
 
             return TokenRefreshResponseDto.builder()
                     .refreshToken(refreshToken)

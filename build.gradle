@@ -28,11 +28,12 @@ dependencies {
 	implementation 'com.google.api-client:google-api-client:2.0.0'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	implementation 'commons-io:commons-io:2.11.0'
-	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
 	implementation group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.15'
 	// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
 	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 }
 

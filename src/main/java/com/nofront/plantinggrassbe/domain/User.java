@@ -23,6 +23,15 @@ public class User {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated
+    private RoleType roleType;
+
     @Column(name = "provider", nullable = false)
     private String provider;
 

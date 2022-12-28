@@ -18,10 +18,19 @@ import java.util.List;
 @Builder
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column(name = "username", nullable = false)
     private String username;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated
+    private RoleType roleType;
 
     @Column(name = "provider", nullable = false)
     private String provider;

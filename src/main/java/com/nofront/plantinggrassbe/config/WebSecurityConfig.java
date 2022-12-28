@@ -79,6 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/refresh").permitAll()
+                .antMatchers(HttpMethod.GET, "/oauth2/kakao").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(snsFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -89,8 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/refresh")
-//                .antMatchers("/ai/count")
-
+                .antMatchers("/oauth2/kakao")
         ;
     }
 }

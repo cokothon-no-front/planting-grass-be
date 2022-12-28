@@ -1,8 +1,11 @@
 package com.nofront.plantinggrassbe.controller;
 
 import com.nofront.plantinggrassbe.DTO.StringResponseDto;
+import com.nofront.plantinggrassbe.DTO.UserDetails;
 import com.nofront.plantinggrassbe.DTO.UserRegisterRequestDto;
+import com.nofront.plantinggrassbe.DTO.UserResponseDto;
 import com.nofront.plantinggrassbe.domain.User;
+import com.nofront.plantinggrassbe.filter.JwtAuthenticationToken;
 import com.nofront.plantinggrassbe.service.UserService;
 import com.auth0.jwk.JwkException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -44,6 +48,12 @@ public class UserController {
             return null;
         }
     }
+
+    @GetMapping("/user")
+    public UserResponseDto getUser(JwtAuthenticationToken jwtToken){
+        return userService.returnUser(jwtToken);
+    }
+
 
     @GetMapping("/token")
     public boolean checkToken(@RequestParam("token") String token){

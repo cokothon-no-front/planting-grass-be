@@ -18,34 +18,16 @@ import java.util.List;
 @Builder
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "provider", nullable = false)
     private String provider;
 
-    @Column(name = "nickname", unique = true)
-    private String nickname;
-
-    @Column(name = "gender")
-    private String gender;
-
-    @Column(name = "height")
-    private Float height;
-
-    @Column(name = "weight")
-    private Float weight;
-
-    @Column(name = "body_fat_per")
-    private Float bodyFatPer;
-
-    @Column(name = "muscle_per")
-    private Float musclePer;
-
-    @Column(name = "is_newbie")
-    private boolean isNewbie;
+    @Enumerated
+    private RoleType roleType;
 
     @Column(name = "refresh_token")
     private String refreshToken;

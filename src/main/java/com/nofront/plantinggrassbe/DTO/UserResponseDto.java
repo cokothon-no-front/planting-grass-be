@@ -1,5 +1,6 @@
 package com.nofront.plantinggrassbe.DTO;
 
+import com.nofront.plantinggrassbe.domain.RoleType;
 import com.nofront.plantinggrassbe.domain.User;
 import lombok.*;
 
@@ -9,24 +10,24 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponseDto implements IResponseDto<UserResponseDto, User>{
-    private String nickname;
 
-    private boolean isNewbie;
+    private String authority;
 
-    private String gender;
+    private Long id;
 
-    private Float height;
+    private String name;
 
-    private Float weight;
+    private String password;
 
-    private Float bodyFatPer;
-
-    private Float musclePer;
+    private RoleType roleType;
 
     @Override
     public UserResponseDto fromEntity(User user) {
         return UserResponseDto.builder()
-
+                .authority(user.getName())
+                .roleType(user.getRoleType())
+                .id(user.getId())
+                .name(user.getName())
                 .build();
     }
 }

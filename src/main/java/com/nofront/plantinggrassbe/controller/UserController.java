@@ -2,11 +2,15 @@ package com.nofront.plantinggrassbe.controller;
 
 import com.nofront.plantinggrassbe.DTO.StringResponseDto;
 import com.nofront.plantinggrassbe.DTO.UserRegisterRequestDto;
+import com.nofront.plantinggrassbe.DTO.UserResponseDto;
+import com.nofront.plantinggrassbe.DTO.UserSaveResponseDto;
 import com.nofront.plantinggrassbe.domain.User;
+import com.nofront.plantinggrassbe.filter.JwtAuthenticationToken;
 import com.nofront.plantinggrassbe.service.UserService;
 import com.auth0.jwk.JwkException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -78,5 +82,18 @@ public class UserController {
 //        }
 //    }
 //
+
+    @GetMapping("/user")
+    public UserResponseDto getUser(JwtAuthenticationToken jwtToken){
+        return userService.returnUser(jwtToken);
+    }
+
+
+//    @GetMapping("/user/save/{id}")
+//    public UserResponseDto findUserById(@PathVariable Long id){
+//        return UserService.findById(id);
+//    }
+
+
 
 }

@@ -1,5 +1,7 @@
 package com.nofront.plantinggrassbe.domain;
 
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,14 +12,12 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 
+@AllArgsConstructor
 public class UserSaveData {
-    @Id
-    @Column(nullable = false)
-    String dataKey;
 
-    @Column(nullable = false)
     String data;
 
-    @Column
+    String dataKey;
+
     boolean isPrivate;
 }

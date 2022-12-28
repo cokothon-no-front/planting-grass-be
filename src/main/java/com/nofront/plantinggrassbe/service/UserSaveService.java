@@ -1,6 +1,9 @@
 package com.nofront.plantinggrassbe.service;
 
 import com.nofront.plantinggrassbe.DTO.UserDetails;
+
+import com.nofront.plantinggrassbe.DTO.UserSaveRequestDto;
+
 import com.nofront.plantinggrassbe.DTO.UserSaveResponseDto;
 import com.nofront.plantinggrassbe.domain.User;
 import com.nofront.plantinggrassbe.domain.UserSave;
@@ -20,6 +23,7 @@ import java.util.List;
 public class UserSaveService {
 
     @Autowired
+
     private  UserSaveRepository userSaveRepository;
     @Autowired
     private UserRepository userRepository;
@@ -37,6 +41,13 @@ public class UserSaveService {
         UserDetails userDetails = (UserDetails) jwtToken.getPrincipal();
         User user =  userRepository.findByUsernameAndProvider(userDetails.getUsername(), userDetails.getProvider()).orElseThrow(() -> new RuntimeException("can not find user!"));
         return userSaveRepository.findByUsername(user.getUsername());
+    }
+    public UserSaveResponseDto join(UserSaveRequestDto request, JwtAuthenticationToken jwtToken){
+        UserDetails userDetails = (UserDetails) jwtToken.getPrincipal();
+        User user =  userRepository.findByUsernameAndProvider(userDetails.getUsername(), userDetails.getProvider()).orElseThrow(() -> new RuntimeException("can not find user!"));
+        UserSave userSave = request.toEntity(user);
+        userSaveRepository.save(userSave);
+        return new UserSaveResponseDto().fromEntity(userSave, user);
     }
 
 }

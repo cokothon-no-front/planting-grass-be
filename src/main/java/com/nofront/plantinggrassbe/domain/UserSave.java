@@ -1,9 +1,7 @@
 package com.nofront.plantinggrassbe.domain;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,9 +11,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @DynamicInsert
 @Entity
-@Data
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class UserSave {
@@ -23,24 +21,28 @@ public class UserSave {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+
 //    @ManyToOne(targetEntity = User.class)
 //    @JoinColumn(name = "username")
     private String username;
-
 
     @Column()
     boolean isPrivate;
 
     @CreatedDate
-    @Column()
-    LocalDateTime createdDate;
+
+    @Builder.Default
+    @Column(nullable = true, updatable = false, columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+    LocalDateTime createdDate = LocalDateTime.now();
 
     @LastModifiedDate
-    @Column()
-    LocalDateTime updatedDate;
+    @Builder.Default
+    @Column(nullable = true, updatable = false, columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+    LocalDateTime updatedDate = LocalDateTime.now();
 
     private String data;
 
     private String dataKey;
+
 
 }

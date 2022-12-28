@@ -13,7 +13,9 @@ public interface UserSaveRepository extends JpaRepository<UserSave, Integer> {
 
     UserSave save(UserSave data);
 
+
     List<UserSave> findAll();
 
     List<UserSave> findByUsername(String username);
+
 }

@@ -7,7 +7,9 @@ import com.nofront.plantinggrassbe.DTO.UserSaveResponseDto;
 import com.nofront.plantinggrassbe.Utils.CommonTokenUtils;
 import com.nofront.plantinggrassbe.Utils.KakaoTokenUtils;
 import com.nofront.plantinggrassbe.domain.User;
+
 import com.nofront.plantinggrassbe.domain.UserSave;
+
 import com.nofront.plantinggrassbe.filter.JwtAuthenticationToken;
 import com.nofront.plantinggrassbe.repository.UserRepository;
 
@@ -23,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.*;
 
 @Transactional
@@ -70,7 +73,11 @@ public class UserService {
     public boolean checkKakaoToken(String token) throws ParseException, JwkException {
         return kakaoTokenUtils.validate(token);
     }
-
+    public UserResponseDto returnUser(JwtAuthenticationToken jwtToken){
+        UserDetails userDetails = (UserDetails) jwtToken.getPrincipal();
+        User user =  userRepository.findByUsernameAndProvider(userDetails.getUsername(), userDetails.getProvider()).orElseThrow(() -> new RuntimeException("can not find user!"));
+        return new UserResponseDto().fromEntity(user);
+    }
     public void join(UserRegisterRequestDto request) throws ParseException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User userBefore = userRepository.findByUsernameAndProvider(userDetails.getUsername(), userDetails.getProvider()).orElseThrow(() -> new RuntimeException("can not find user!"));

@@ -25,7 +25,9 @@ public class UserSaveResponseDto {
     private Long userId;
 
 
+
     public UserSaveResponseDto fromEntity(UserSave userSave,User user){
+
         return UserSaveResponseDto.builder()
                 .createdDate(userSave.getCreatedDate())
                 .data(userSave.getData())

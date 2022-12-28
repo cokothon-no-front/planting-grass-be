@@ -9,7 +9,6 @@ import com.nofront.plantinggrassbe.Utils.OauthInfo;
 import com.nofront.plantinggrassbe.service.OAuthService;
 import com.nofront.plantinggrassbe.service.TokenService;
 import com.nofront.plantinggrassbe.service.UserService;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

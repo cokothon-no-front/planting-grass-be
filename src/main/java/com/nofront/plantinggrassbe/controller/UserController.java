@@ -2,7 +2,6 @@ package com.nofront.plantinggrassbe.controller;
 
 import com.nofront.plantinggrassbe.DTO.StringResponseDto;
 import com.nofront.plantinggrassbe.DTO.UserRegisterRequestDto;
-import com.nofront.plantinggrassbe.DTO.UserResponseDto;
 import com.nofront.plantinggrassbe.domain.User;
 import com.nofront.plantinggrassbe.service.UserService;
 import com.auth0.jwk.JwkException;
@@ -67,26 +66,17 @@ public class UserController {
         return new StringResponseDto("User Registered!!");
     }
 
-    @GetMapping("/user")
-    public UserResponseDto findUserByNickname(@RequestParam(value = "nickname") String nickname){
-        try {
-            return userService.findUserByNickname(nickname);
-        }
-        catch (Exception e){
-            System.out.println("e = " + e);
-            return null;
-        }
-    }
-    @GetMapping("/user/refreshToken")
-    public UserResponseDto findUserByToken(@RequestParam(value = "refreshToken") String token){
-        try {
-            return userService.findUserByToken(token);
-        }
-        catch (Exception e){
-            System.out.println("e = " + e);
-            return null;
-        }
-    }
 
+//    @GetMapping("/user/refreshToken")
+//    public UserResponseDto findUserByToken(@RequestParam(value = "refreshToken") String token){
+//        try {
+//            return userService.findUserByToken(token);
+//        }
+//        catch (Exception e){
+//            System.out.println("e = " + e);
+//            return null;
+//        }
+//    }
+//
 
 }

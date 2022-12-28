@@ -10,33 +10,47 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 // 이거 바꾸면 UserDetailsServiceImpl 빌더 바꿔 주기
-@Getter
 @Setter
+@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(
+        name="user",
+        uniqueConstraints={
+                @UniqueConstraint(
+                        name= "user_unique",
+                        columnNames={"username", "provider"}
+                )
+        }
+)
 public class User {
+    enum RoleType{
+        Admin,
+        Manager,
+        Guest
+    }
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = true, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
-    @Column(name = "provider", nullable = false)
+    @Column(name = "provider", nullable = true)
     private String provider;
 
-    @Enumerated
-    private RoleType roleType;
+//    @Enumerated
+//    private RoleType roleType;
 
     @Column(name = "refresh_token")
     private String refreshToken;

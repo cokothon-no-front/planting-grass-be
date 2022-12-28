@@ -26,13 +26,7 @@ public class UserResponseDto implements IResponseDto<UserResponseDto, User>{
     @Override
     public UserResponseDto fromEntity(User user) {
         return UserResponseDto.builder()
-                .gender(user.getGender())
-                .height(user.getHeight())
-                .weight(user.getWeight())
-                .bodyFatPer(user.getBodyFatPer())
-                .musclePer(user.getMusclePer())
-                .nickname(user.getNickname())
-                .isNewbie(user.isNewbie())
+
                 .build();
     }
 }

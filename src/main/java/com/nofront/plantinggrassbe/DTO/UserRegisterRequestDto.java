@@ -22,13 +22,7 @@ public class UserRegisterRequestDto implements IRequestDto<User, Object>{
     @Override
     public User toEntity(Object object) {
         return User.builder()
-                .gender(gender)
-                .height(height)
-                .weight(weight)
-                .bodyFatPer(bodyFatPer)
-                .musclePer(musclePer)
-                .nickname(nickname)
-                .isNewbie(isNewbie)
+
                 .build();
     }
 }

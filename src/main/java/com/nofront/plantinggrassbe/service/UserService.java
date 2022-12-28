@@ -77,15 +77,15 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserResponseDto findUserByNickname(String nickname) throws Exception {
-        User user = userRepository.findByNickname(nickname).orElseThrow(() -> new Exception("error find by nickname"));
-        return new UserResponseDto().fromEntity(user);
-    }
+//    public UserResponseDto findUserByNickname(String nickname) throws Exception {
+//        User user = userRepository.findByNickname(nickname).orElseThrow(() -> new Exception("error find by nickname"));
+//        return new UserResponseDto().fromEntity(user);
+//    }
 
-    public UserResponseDto findUserByToken(String token) throws Exception {
-        User user = userRepository.findByRefreshToken(token).orElseThrow(() -> new Exception("error find by refreshToken"));
-        return new UserResponseDto().fromEntity(user);
-    }
+//    public UserResponseDto findUserByToken(String token) throws Exception {
+//        User user = userRepository.findByRefreshToken(token).orElseThrow(() -> new Exception("error find by refreshToken"));
+//        return new UserResponseDto().fromEntity(user);
+//    }
 
     public void saveToken(String username, String provider, String refreshToken) throws  Exception{
         User user = userRepository.findByUsernameAndProvider(username, provider).isPresent() ?

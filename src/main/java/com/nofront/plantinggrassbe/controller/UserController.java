@@ -93,10 +93,6 @@ public class UserController {
 //    }
 //
 
-    @GetMapping("/user")
-    public UserResponseDto getUser(JwtAuthenticationToken jwtToken){
-        return userService.returnUser(jwtToken);
-    }
 
 
 //    @GetMapping("/user/save/{id}")

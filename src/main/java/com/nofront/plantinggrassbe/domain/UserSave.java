@@ -14,7 +14,9 @@ import java.time.LocalDateTime;
 @Setter
 @DynamicInsert
 @Entity
+@AllArgsConstructor
 @Builder
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class UserSave {
     @Id

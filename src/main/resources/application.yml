@@ -1,0 +1,23 @@
+spring:
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+    property-naming-strategy: LOWER_CAMEL_CASE
+    time-zone: Asia/Seoul
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  jwt:
+    secret: Vm1wSmQwMVdUWGxVYTJScFVtMW9WMWxYZUZaUFVUMDk=
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /v2/api-docs
+
+server:
+  port: 5000

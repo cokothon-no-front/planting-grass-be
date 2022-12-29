@@ -1,0 +1,15 @@
+springfox:
+  documentation:
+    enabled: true
+
+spring:
+  r2dbc:
+    url: r2dbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
+    username: root
+    password: dongho135
+  config:
+    activate:
+      on-profile: dev
+  sql:
+    init:
+      mode: never
